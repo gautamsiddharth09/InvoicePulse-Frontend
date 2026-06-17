@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+@theme{
+  --font-display: "Urbanist", sans-serif;
+  --breakpoint-3xl: 1920px;
+  --color-primary: #FF9324;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-display);
+  }
+
+  body {
+    background-color: #55636A
+  }
+}
+
+/* for pdf css */
+
+
+.pdf-area table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.pdf-area th,
+.pdf-area td {
+  font-size: 11px;
+  padding: 8px;
+  border: 1px solid #000;
+  text-align: center;
+  vertical-align: middle;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.pdf-area {
+  width: 210mm;
+  max-width: 210mm;
+  overflow: visible !important;
+}
+
+.pdf-area * {
+  box-sizing: border-box;
+}
+
+
