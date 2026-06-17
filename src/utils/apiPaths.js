@@ -1,14 +1,14 @@
-export const BASE_URL = "http://localhost:8000";
+export const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const API_PATHS = {
   AUTH: {
-    REGISTER: "/api/auth/register", 
-    LOGIN: "/api/auth/login", 
-    LOGOUT: "/api/auth/logout", 
-    GET_PROFILE: "/api/auth/me", 
-    UPDATE_PROFILE: "/api/auth/me", 
+    REGISTER: "/api/auth/register",
+    LOGIN: "/api/auth/login",
+    LOGOUT: "/api/auth/logout",
+    GET_PROFILE: "/api/auth/me",
+    UPDATE_PROFILE: "/api/auth/me",
     FORGOT_PASSWORD: "/api/auth/forgot-password",
-    RESET_PASSWORD: "/api/auth/reset-password" 
+    RESET_PASSWORD: "/api/auth/reset-password",
   },
 
   INVOICE: {
@@ -20,8 +20,8 @@ export const API_PATHS = {
   },
 
   AI: {
-    PARSE_INVOICE_TEXT: '/api/ai/parse-text',
-    GENERATE_REMINDER: '/api/ai/generate-reminder',
-    GET_DASHBOARD_SUMMARY: '/api/ai/dashboard-summary'
-  }
+    PARSE_INVOICE_TEXT: "/api/ai/parse-text",
+    GENERATE_REMINDER: "/api/ai/generate-reminder",
+    GET_DASHBOARD_SUMMARY: "/api/ai/dashboard-summary",
+  },
 };
