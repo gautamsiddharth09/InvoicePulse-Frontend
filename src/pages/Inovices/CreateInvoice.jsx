@@ -764,7 +764,7 @@ const CreateInvoice = () => {
                 </div>
                 <div className="md:col-span-1">
                   <label className="text-xs font-semibold text-gray-600">
-                    Disc Price
+                    Selling Price
                   </label>
                   <input
                     type="number"

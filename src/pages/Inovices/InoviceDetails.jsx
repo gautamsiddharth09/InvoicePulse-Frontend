@@ -256,7 +256,7 @@ const InvoiceDetails = () => {
         {/* header */}
         <div className="flex justify-between border-b pb-6">
           <div>
-            <h1 className="text-3xl font-bold">INVOICE</h1>
+            <h1 className="text-3xl font-bold">TAX - INVOICE</h1>
             <p>#{invoice.invoiceNumber}</p>
           </div>
 
