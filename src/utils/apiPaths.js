@@ -24,4 +24,12 @@ export const API_PATHS = {
     GENERATE_REMINDER: "/api/ai/generate-reminder",
     GET_DASHBOARD_SUMMARY: "/api/ai/dashboard-summary",
   },
+
+  PRODUCT: {
+    CREATE: "/api/products/",
+    GET_ALL_PRODUCTS: "/api/products/",
+    GET_PRODUCT_BY_ID: (id) => `/api/products/${id}`,
+    UPDATE_PRODUCTS: (id) => `/api/products/${id}`,
+    DELETE_PRODUCTS: (id) => `/api/products/${id}`,
+  },
 };

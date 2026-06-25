@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { Plus, Trash2, Loader2, Save } from "lucide-react";
 import { toast } from "react-toastify";
+import { getProducts } from "../../features/productSlice";
 
 import {
   createInvoice,
@@ -25,6 +26,22 @@ const CreateInvoice = () => {
   const { currentInvoice, loading, createLoading, updateLoading } = useSelector(
     (state) => state.invoice,
   );
+
+  // product section
+  const [items, setItems] = useState([
+    {
+      productId: "",
+      productName: "",
+      productCode: "",
+      description: "",
+      mrpPrice: "",
+      sellingPrice: "",
+      gst: "",
+    },
+  ]);
+
+  const products = useSelector((state) => state.products.products);
+  // console.log("products", products)
 
   // Form Data Initial State
   const [formData, setFormData] = useState({
@@ -86,6 +103,33 @@ const CreateInvoice = () => {
     ],
     notes: "",
   });
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
+
+  // handle item select
+  const handleProductSelect = (index, productId) => {
+    const selectedProduct = products.find((p) => p._id === productId);
+    if (!selectedProduct) return;
+
+    setFormData((prev) => {
+      const updatedItems = [...prev.items];
+
+      updatedItems[index] = {
+        ...updatedItems[index],
+        productId: selectedProduct._id,
+        name: selectedProduct.productName,
+        productCode: selectedProduct.productCode,
+        description: selectedProduct.description,
+        mrpPrice: selectedProduct.mrpPrice,
+        discountedPrice: selectedProduct.sellingPrice,
+        gst: selectedProduct.gst,
+      };
+
+      return { ...prev, items: updatedItems };
+    });
+  };
 
   const [sameAsBillTo, setSameAsBillTo] = useState(false);
 
@@ -341,7 +385,7 @@ const CreateInvoice = () => {
           quantity: qty,
           mrpPrice: Number(item.mrpPrice) || 0,
           discount: discPercent,
-          discountedPrice: Number(finalPricePerItem) || 0, // यह डेटाबेस में सही वैल्यू भेजेगा
+          discountedPrice: Number(finalPricePerItem) || 0,
         };
       });
 
@@ -679,6 +723,7 @@ const CreateInvoice = () => {
             <h2 className="text-xl font-semibold text-[#12D6C3]">
               Invoice Items
             </h2>
+
             <button
               type="button"
               onClick={addItem}
@@ -692,10 +737,31 @@ const CreateInvoice = () => {
             {formData.items.map((item, index) => (
               <div
                 key={index}
-                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-13 gap-3 pb-4 border-b border-gray-100"
+                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-9 gap-3 p-4 mb-6 bg-white rounded-2xl border border-gray-200 shadow-md hover:shadow-lg transition-all"
               >
+                {/* dropdown */}
                 <div className="md:col-span-3">
-                  <label className="text-xs font-semibold text-gray-600">
+                  <label className="text-sm font-semibold text-gray-600 ">
+                    Select Product
+                  </label>
+
+                  <select
+                    value={item.productId}
+                    onChange={(e) => handleProductSelect(index, e.target.value)}
+                    className="w-full p-2.5 rounded-xl border border-slate-300 hover:bg-gray-100"
+                  >
+                    <option value="">Select Product</option>
+
+                    {products?.map((product) => (
+                      <option key={product._id} value={product._id}>
+                        {product.productName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="md:col-span-3">
+                  <label className="text-sm font-semibold text-gray-600">
                     Product Name
                   </label>
                   <input
@@ -705,11 +771,11 @@ const CreateInvoice = () => {
                     onChange={(e) =>
                       handleItemChange(index, "name", e.target.value)
                     }
-                    className="w-full p-2.5 rounded-xl border border-slate-300 text-sm"
+                    className="w-full p-2.5 rounded-xl border border-slate-300 text-sm  hover:bg-gray-100"
                   />
                 </div>
                 <div className="md:col-span-3">
-                  <label className="text-xs font-semibold text-gray-600">
+                  <label className="text-sm font-semibold text-gray-600">
                     Product Description
                   </label>
                   <input
@@ -719,11 +785,11 @@ const CreateInvoice = () => {
                     onChange={(e) =>
                       handleItemChange(index, "description", e.target.value)
                     }
-                    className="w-full p-2.5 rounded-xl border border-slate-300 text-sm"
+                    className="w-full p-2.5 rounded-xl border border-slate-300 text-sm hover:bg-gray-100"
                   />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="text-xs font-semibold text-gray-600">
+                  <label className="text-sm font-semibold text-gray-600">
                     Product Code
                   </label>
                   <input
@@ -733,11 +799,11 @@ const CreateInvoice = () => {
                     onChange={(e) =>
                       handleItemChange(index, "productCode", e.target.value)
                     }
-                    className="w-full p-2.5 rounded-xl border border-slate-300 text-sm"
+                    className="w-full p-2.5 rounded-xl border border-slate-300 text-sm hover:bg-gray-100"
                   />
                 </div>
                 <div className="md:col-span-1">
-                  <label className="text-xs font-semibold text-gray-600">
+                  <label className="text-sm font-semibold text-gray-600">
                     Qunatity
                   </label>
                   <input
@@ -746,11 +812,11 @@ const CreateInvoice = () => {
                     onChange={(e) =>
                       handleItemChange(index, "quantity", e.target.value)
                     }
-                    className="w-full p-2.5 rounded-xl border border-slate-300 text-sm"
+                    className="w-full p-2.5 rounded-xl border border-slate-300 text-sm hover:bg-gray-100"
                   />
                 </div>
                 <div className="md:col-span-1">
-                  <label className="text-xs font-semibold text-gray-600">
+                  <label className="text-sm font-semibold text-gray-600">
                     MRP Price
                   </label>
                   <input
@@ -759,11 +825,11 @@ const CreateInvoice = () => {
                     onChange={(e) =>
                       handleItemChange(index, "mrpPrice", e.target.value)
                     }
-                    className="w-full p-2.5 rounded-xl border border-slate-300 text-sm"
+                    className="w-full p-2.5 rounded-xl border border-slate-300 text-sm hover:bg-gray-100"
                   />
                 </div>
                 <div className="md:col-span-1">
-                  <label className="text-xs font-semibold text-gray-600">
+                  <label className="text-sm font-semibold text-gray-600">
                     Selling Price
                   </label>
                   <input
@@ -772,11 +838,11 @@ const CreateInvoice = () => {
                     onChange={(e) =>
                       handleItemChange(index, "discountedPrice", e.target.value)
                     }
-                    className="w-full p-2.5 rounded-xl border border-slate-300 text-sm"
+                    className="w-full p-2.5 rounded-xl border border-slate-300 text-sm hover:bg-gray-100"
                   />
                 </div>
                 <div className="md:col-span-1">
-                  <label className="text-xs font-semibold text-gray-600">
+                  <label className="text-sm font-semibold text-gray-600">
                     Discount %
                   </label>
                   <input
@@ -785,7 +851,7 @@ const CreateInvoice = () => {
                     onChange={(e) =>
                       handleItemChange(index, "discount", e.target.value)
                     }
-                    className="w-full p-2.5 rounded-xl border border-slate-300 text-sm"
+                    className="w-full p-2.5 rounded-xl border border-slate-300 text-sm hover:bg-gray-100"
                   />
                 </div>
                 <div className="md:col-span-1 flex items-end">

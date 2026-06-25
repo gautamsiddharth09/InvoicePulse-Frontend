@@ -20,6 +20,9 @@ import ResetPassword from "./pages/Auth/ResetPassword";
 import { loadUser } from "./features/authSlice";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
+import ProductList from "./pages/product/ProductList";
+import CreateProduct from "./pages/product/CreateProduct";
+
 
 
 const App = () => {
@@ -46,10 +49,13 @@ const App = () => {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="invoices" element={<AllInovice />} />
             <Route path="invoices/new" element={<CreateInvoice />} />
-
             <Route path="invoices/edit/:id" element={<CreateInvoice />} />
-            
             <Route path="invoices/:id" element={<InoviceDetails />} />
+
+            <Route path="productList" element={<ProductList />} />
+            <Route path="createProduct" element={<CreateProduct />} />
+           <Route path="/edit-product/:id" element={<CreateProduct />} />
+            
             <Route path="profile" element={<ProfilePage />} />
           </Route>
 

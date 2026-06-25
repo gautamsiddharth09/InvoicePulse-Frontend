@@ -9,7 +9,9 @@ import {
   LogOut,
   Menu,
   X,
-  Plus
+  Plus,
+  Package,
+  Boxes
 } from "lucide-react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -147,6 +149,36 @@ function DashboardLayout({ children }) {
             Create Invoice
           </NavLink>
 
+           <NavLink
+            to="productList"
+            onClick={() => setSidebarOpen(false)}
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                isActive
+                  ? "bg-[#12D6C3] text-white"
+                  : "text-gray-600 hover:bg-gray-100"
+              }`
+            }
+          >
+            <Package size={18} />
+            All Product
+          </NavLink>
+
+           <NavLink
+            to="createProduct"
+            onClick={() => setSidebarOpen(false)}
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                isActive
+                  ? "bg-[#12D6C3] text-white"
+                  : "text-gray-600 hover:bg-gray-100"
+              }`
+            }
+          >
+            <Plus size={18} />
+            Create Product
+          </NavLink>
+
           <NavLink
             to="profile"
             onClick={() => setSidebarOpen(false)}
@@ -161,6 +193,7 @@ function DashboardLayout({ children }) {
             <User size={18} />
             Profile
           </NavLink>
+         
         </nav>
 
         {/* Logout */}
