@@ -46,9 +46,10 @@ const CreateInvoice = () => {
   // Form Data Initial State
   const [formData, setFormData] = useState({
     invoiceDate: new Date().toISOString().split("T")[0],
+    invoiceNumber: "",
     dueDate: "",
     paymentTerms: "Net 15",
-    status: "Unpaid",
+    status: "Paid",
     currency: "INR",
     taxRate: 0,
     shippingCharge: 0,
@@ -192,6 +193,7 @@ const CreateInvoice = () => {
     setFormData({
       invoiceDate: currentInvoice.invoiceDate?.split("T")[0] || "",
       dueDate: currentInvoice.dueDate?.split("T")[0] || "",
+       invoiceNumber: currentInvoice.invoiceNumber || "",
       paymentTerms: currentInvoice.paymentTerms || "Net 15",
       status: currentInvoice.status || "Unpaid",
       currency: currentInvoice.currency || "INR",
@@ -415,7 +417,7 @@ const CreateInvoice = () => {
       }
       navigate("/invoices");
     } catch (error) {
-      toast.error(error?.message || "Something went wrong");
+       toast.error(error || "Something went wrong");
     }
   };
 
@@ -488,6 +490,19 @@ const CreateInvoice = () => {
             </div>
 
             <div>
+              <label className="block text-gray-900 mb-2">Invoice Number</label>
+              <input
+                type="text"
+                name="invoiceNumber"
+                value={formData.invoiceNumber}
+                onChange={handleChange}
+                placeholder="Auto Generated"
+                className="w-full rounded-xl p-3 border border-slate-300 text-gray-600 hover:bg-gray-100"
+              />
+            </div>
+
+            {/* 
+            <div>
               <label className="block text-gray-900 mb-2">Payment Terms</label>
               <select
                 name="paymentTerms"
@@ -500,7 +515,7 @@ const CreateInvoice = () => {
                 <option>Net 60</option>
                 <option>Due on Receipt</option>
               </select>
-            </div>
+            </div> */}
 
             <div>
               <label className="block text-gray-900 mb-2">Status</label>
@@ -510,8 +525,8 @@ const CreateInvoice = () => {
                 onChange={handleChange}
                 className="w-full rounded-xl p-3 border border-slate-300 text-gray-700 hover:bg-gray-100"
               >
+                  <option value="Paid">Paid</option>
                 <option value="Unpaid">Unpaid</option>
-                <option value="Paid">Paid</option>
               </select>
             </div>
 
