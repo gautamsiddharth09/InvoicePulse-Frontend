@@ -17,6 +17,7 @@ export const API_PATHS = {
     GET_INVOICE_BY_ID: (id) => `/api/invoice/${id}`,
     UPDATE_INVOICE: (id) => `/api/invoice/${id}`,
     DELETE_INVOICE: (id) => `/api/invoice/${id}`,
+    NEXT_NUMBER: "/api/invoice/next-number",
   },
 
   AI: {

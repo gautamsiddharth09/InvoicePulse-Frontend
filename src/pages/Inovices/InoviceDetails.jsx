@@ -16,6 +16,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { formatDate } from "../../utils/formDate";
 
 import {
   getInvoiceById,
@@ -269,14 +270,11 @@ const InvoiceDetails = () => {
         {/* second colom of pdf */}
         <div className="grid grid-cols-3.5 mt-6 text-sm">
           <p>
-            <b>Date:</b> {new Date(invoice.invoiceDate).toLocaleDateString()}
+            <b>Date:</b> {formatDate(invoice.invoiceDate)}
           </p>
 
           <p>
-            <b>Due:</b>{" "}
-            {invoice.dueDate
-              ? new Date(invoice.dueDate).toLocaleDateString()
-              : "-"}
+            <b>Due:</b> {invoice.dueDate ? formatDate(invoice.dueDate) : "-"}
           </p>
 
           <p>
@@ -321,7 +319,7 @@ const InvoiceDetails = () => {
           <p>
             Sale Date:{" "}
             {invoice.orderDetails?.saleDate
-              ? new Date(invoice.orderDetails.saleDate).toLocaleDateString()
+              ? formatDate(invoice.orderDetails.saleDate)
               : "-"}
           </p>
         </div>

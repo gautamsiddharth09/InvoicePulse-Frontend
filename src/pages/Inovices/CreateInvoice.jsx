@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { getProducts } from "../../features/productSlice";
 
 import {
+  getNextInvoiceNumber,
   createInvoice,
   updateInvoice,
   getInvoiceById,
@@ -23,7 +24,7 @@ const CreateInvoice = () => {
   const isEditMode = Boolean(id);
 
   const { user } = useSelector((state) => state.auth);
-  const { currentInvoice, loading, createLoading, updateLoading } = useSelector(
+  const {invoiceNumber, currentInvoice, loading, createLoading, updateLoading } = useSelector(
     (state) => state.invoice,
   );
 
@@ -243,6 +244,21 @@ const CreateInvoice = () => {
     formData.billTo.phone,
     formData.billTo.address,
   ]);
+
+// get next invoice number
+useEffect(()=>{
+ dispatch(getNextInvoiceNumber());
+},[dispatch]);
+
+// Auto generate invoice number
+useEffect(() => {
+  if (invoiceNumber && !isEditMode) {
+    setFormData((prev) => ({
+      ...prev,
+      invoiceNumber: invoiceNumber,
+    }));
+  }
+}, [invoiceNumber, isEditMode]);
 
   // handle change
   const handleChange = (e) => {
@@ -488,7 +504,7 @@ const CreateInvoice = () => {
                 className="w-full rounded-xl p-3 border border-slate-300 text-gray-600 hover:bg-gray-100"
               />
             </div>
-
+         
             <div>
               <label className="block text-gray-900 mb-2">Invoice Number</label>
               <input

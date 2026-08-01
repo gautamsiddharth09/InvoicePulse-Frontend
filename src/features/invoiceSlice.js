@@ -2,7 +2,21 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../utils/axiosInstances";
 import { API_PATHS } from "../utils/apiPaths";
 
+// get Invoice number
+export const getNextInvoiceNumber = createAsyncThunk(
+  "invoice/getNextInvoiceNumber",
+  async (_, thunkAPI) => {
+    try {
+      const response = await axiosInstance.get(API_PATHS.INVOICE.NEXT_NUMBER);
 
+      return response.data.invoiceNumber;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Failed to get invoice number",
+      );
+    }
+  },
+);
 // get all invoice
 export const getAllInvoices = createAsyncThunk(
   "invoice/getAllInvoices",
@@ -21,7 +35,6 @@ export const getAllInvoices = createAsyncThunk(
   },
 );
 
-
 // get single invoice
 export const getInvoiceById = createAsyncThunk(
   "invoice/getInvoiceById",
@@ -39,8 +52,8 @@ export const getInvoiceById = createAsyncThunk(
     }
   },
 );
- console.log("response")
- 
+console.log("response");
+
 // create invoice
 export const createInvoice = createAsyncThunk(
   "invoice/createInvoice",
@@ -50,7 +63,7 @@ export const createInvoice = createAsyncThunk(
         API_PATHS.INVOICE.CREATE,
         invoiceData,
       );
-     
+
       return response.data.invoice;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -59,7 +72,6 @@ export const createInvoice = createAsyncThunk(
     }
   },
 );
-
 
 // invoice update
 export const updateInvoice = createAsyncThunk(
@@ -96,10 +108,10 @@ export const deleteInvoice = createAsyncThunk(
   },
 );
 
-
 // initial State
 const initialState = {
   invoices: [],
+  invoiceNumber: "",
   currentInvoice: null,
   loading: false,
   createLoading: false,
@@ -125,7 +137,10 @@ const invoiceSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-
+    // get next invoice number
+    .addCase(getNextInvoiceNumber.fulfilled, (state, action) => {
+      state.invoiceNumber = action.payload;
+    })
       // get all
       .addCase(getAllInvoices.pending, (state) => {
         state.loading = true;
@@ -140,7 +155,7 @@ const invoiceSlice = createSlice({
         state.error = action.payload;
       })
 
-    //  get invoice by id
+      //  get invoice by id
       .addCase(getInvoiceById.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -183,7 +198,7 @@ const invoiceSlice = createSlice({
         state.updateLoading = false;
         state.error = action.payload;
       })
-    //  delete invoice
+      //  delete invoice
       .addCase(deleteInvoice.pending, (state) => {
         state.deleteLoading = true;
         state.error = null;
