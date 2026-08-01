@@ -7,6 +7,5 @@ export const formatDate = (date) => {
       month: "short",
       year: "numeric",
     })
-    .replace(/ /g, "/")
-    .toLowerCase();
+    .replace(/ /g, "/");
 };
