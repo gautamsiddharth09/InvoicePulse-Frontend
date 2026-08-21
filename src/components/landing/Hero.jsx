@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 // import hero_img from "../../assets/hero_img.png";
-import in2 from "../../assets/in2.png";
+import in3 from "../../assets/in3.png";
 import { useSelector } from "react-redux";
 
 const Hero = () => {
@@ -59,7 +59,7 @@ const { isAuthenticated } = useSelector((state)=> state.auth)
           {/* Right Image */}
           <div className="flex justify-center lg:justify-end">
             <img
-              src={in2}
+              src={in3}
               alt="Invoice App Dashboard"
               className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg rounded-2xl shadow-2xl"
             />
